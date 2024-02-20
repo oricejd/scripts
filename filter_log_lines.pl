@@ -3,17 +3,16 @@
 use strict;
 use warnings;
 
-# Define the log file path
-my $log_file = 'spring_boot.log';
+# Check if the correct number of command-line arguments are provided
+if (@ARGV != 3) {
+    die "Usage: $0 <log_file> <patterns_file> <output_file>\n";
+}
 
-# Define the input file containing patterns
-my $patterns_file = 'patterns.txt';
+# Command-line arguments
+my ($log_file, $patterns_file, $output_file) = @ARGV;
 
 # Define the number of consecutive lines to include in each group
 my $consecutive_lines = 5;
-
-# Define the output file path
-my $output_file = 'filtered_results.txt';
 
 # Open the patterns file for reading
 open(my $fh_patterns, '<', $patterns_file) or die "Cannot open file '$patterns_file' for reading: $!";
@@ -54,7 +53,7 @@ while (my $line = <$fh_in>) {
                 last; # Stop checking patterns if any pattern is not matched
             }
         }
-        
+
         # If all patterns are matched, print the group of lines to the output file
         if ($matched_all) {
             print $fh_out "Found group of lines:\n";
